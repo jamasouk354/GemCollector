@@ -19,8 +19,8 @@ namespace GemCollector
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            GameScreen gs = new GameScreen();
-            this.Controls.Add(gs);
+            SelectScreen ss = new SelectScreen();
+            this.Controls.Add(ss);
         }
     }
 }
