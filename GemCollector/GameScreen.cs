@@ -17,13 +17,18 @@ namespace GemCollector
             InitializeComponent();
         }
 
-        int GridLength, GridWidth, GridNum, MineNum;
+        public static int GridLength, GridWidth, GridNum, MineNum;
 
         List<GridBox> Grid = new List<GridBox>();
-        Random randgen;
+        Random randgen = new Random();
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
+            // Remove this later, testing purposes
+            GridLength = 10;
+            GridWidth = 10;
+            MineNum = 5;
+
             GridNum = GridLength * GridWidth;
 
             int counter = 0;
@@ -43,14 +48,18 @@ namespace GemCollector
             }
 
             // Insert Gems
-            foreach (GridBox box in Grid)
+            while(counter < MineNum)
             {
-                if ((randgen.Next(1, 10) == 5) && counter < MineNum)
+                foreach (GridBox box in Grid)
                 {
-                    box.value = "Gem";
-                    counter++;
+                    if ((randgen.Next(1, 100) == 5) && counter < MineNum)
+                    {
+                        box.value = "Gem";
+                        counter++;
+                    }
                 }
             }
+
 
             // Generate numbers
             foreach (GridBox box in Grid)
@@ -58,7 +67,7 @@ namespace GemCollector
                 if(!(box.value == "Gem"))
                 {
                     counter = 0;
-                    if (Grid.Contains(new GridBox(box.x++, box.y, "Gem")))
+                    if (Grid.Contains(new GridBox(box.x++, box.y, "0")))
                     {
                         counter++;
                     }
@@ -98,7 +107,7 @@ namespace GemCollector
                         counter++;
                     }
 
-                    box.value = counter.ToString();
+                    box.value = Convert.ToString(counter);
                 }
 
             }
@@ -111,14 +120,20 @@ namespace GemCollector
             // Draw Grid
             for (int i = 0; i < GridWidth; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(i * 10, 0), new Point(i * 10, GridLength * 10));
+                e.Graphics.DrawLine(linePen, new Point(i * 40, 0), new Point(i * 40, GridLength * 40));
             }
 
             for (int i = 0; i < GridLength; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(0, i * 10), new Point(GridWidth * 10, i * 10));
+                e.Graphics.DrawLine(linePen, new Point(0, i * 40), new Point(GridWidth * 40, i * 40));
             }
 
+            Font font = new Font("Times New Romans", 10);
+            SolidBrush textBrush = new SolidBrush(Color.Brown);
+            foreach (GridBox b in Grid)
+            {
+                e.Graphics.DrawString(b.value, font, textBrush, b.x * 40, b.y * 40);
+            }
         }
     }
 }

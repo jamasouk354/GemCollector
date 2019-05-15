@@ -16,5 +16,11 @@ namespace GemCollector
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            GameScreen gs = new GameScreen();
+            this.Controls.Add(gs);
+        }
     }
 }
