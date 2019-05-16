@@ -19,11 +19,6 @@ namespace GemCollector
             InitializeComponent();
         }
 
-        private void SelectScreen_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void easyButton_Click(object sender, EventArgs e)
         {
             GridHeight = GridWidth = 9;
@@ -36,7 +31,6 @@ namespace GemCollector
             GridHeight = GridWidth = 14;
             GemNum = 40;
             loadGame();
-
         }
 
         private void hardButton_Click(object sender, EventArgs e)
@@ -44,6 +38,14 @@ namespace GemCollector
             GridWidth = GridHeight = 24;
             GemNum = 99;
             loadGame();
+        }
+
+        private void customButtom_Click(object sender, EventArgs e)
+        {
+            CustomLevel cl = new CustomLevel();
+            Form a = this.FindForm();
+            a.Controls.Remove(this);
+            a.Controls.Add(cl);
         }
 
         public void loadGame()
