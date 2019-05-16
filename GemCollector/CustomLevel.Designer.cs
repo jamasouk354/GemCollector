@@ -1,6 +1,6 @@
 ﻿namespace GemCollector
 {
-    partial class GameScreen
+    partial class CustomLevel
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,15 +30,12 @@
         {
             this.SuspendLayout();
             // 
-            // GameScreen
+            // CustomLevel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(1217, 858);
-            this.Load += new System.EventHandler(this.GameScreen_Load);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
+            this.Name = "CustomLevel";
+            this.Size = new System.Drawing.Size(1018, 650);
             this.ResumeLayout(false);
 
         }

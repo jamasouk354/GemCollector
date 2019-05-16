@@ -17,7 +17,7 @@ namespace GemCollector
             InitializeComponent();
         }
 
-        public static int GridLength, GridWidth, GridNum, MineNum;
+        public static int GridNum;
 
         List<GridBox> Grid = new List<GridBox>();
         Random randgen = new Random();
@@ -25,11 +25,11 @@ namespace GemCollector
         private void GameScreen_Load(object sender, EventArgs e)
         {
             // Remove this later, testing purposes
-            GridLength = 10;
-            GridWidth = 10;
-            MineNum = 5;
+            //SelectScreen.GridLength = 10;
+            //SelectScreen.GridWidth = 10;
+            //SelectScreen.MineNum = 20;
 
-            GridNum = GridLength * GridWidth;
+            GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
 
             int counter = 0;
             bool GridCreated = false;
@@ -37,9 +37,9 @@ namespace GemCollector
             // Generate Grid
             if (GridCreated == false)
             {
-                for (int i = 0; i < GridLength; i++)
+                for (int i = 0; i < SelectScreen.GridWidth; i++)
                 {
-                    for (int j = 0; j < GridWidth; j++)
+                    for (int j = 0; j < SelectScreen.GridHeight; j++)
                     {
                         Grid.Add(new GridBox(i, j, "0"));
                     }
@@ -48,11 +48,11 @@ namespace GemCollector
             }
 
             // Insert Gems
-            while(counter < MineNum)
+            while(counter < SelectScreen.GemNum)
             {
                 foreach (GridBox box in Grid)
                 {
-                    if ((randgen.Next(1, 100) == 5) && counter < MineNum)
+                    if ((randgen.Next(1, 100) == 20) && counter < SelectScreen.GemNum)
                     {
                         box.value = "Gem";
                         counter++;
@@ -67,7 +67,7 @@ namespace GemCollector
                 if(!(box.value == "Gem"))
                 {
                     counter = 0;
-                    if (Grid.Contains(new GridBox(box.x++, box.y, "0")))
+                    if (Grid.Contains(new GridBox(box.x++, box.y, "Gem")))
                     {
                         counter++;
                     }
@@ -118,21 +118,21 @@ namespace GemCollector
             Pen linePen = new Pen(Color.Black, 2);
 
             // Draw Grid
-            for (int i = 0; i < GridWidth; i++)
+            for (int i = 0; i < SelectScreen.GridHeight; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(i * 40, 0), new Point(i * 40, GridLength * 40));
+                e.Graphics.DrawLine(linePen, new Point(i * 30, 0), new Point(i * 30, SelectScreen.GridWidth * 30));
             }
 
-            for (int i = 0; i < GridLength; i++)
+            for (int i = 0; i < SelectScreen.GridWidth; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(0, i * 40), new Point(GridWidth * 40, i * 40));
+                e.Graphics.DrawLine(linePen, new Point(0, i * 30), new Point(SelectScreen.GridWidth * 30, i * 30));
             }
 
             Font font = new Font("Times New Romans", 10);
             SolidBrush textBrush = new SolidBrush(Color.Brown);
             foreach (GridBox b in Grid)
             {
-                e.Graphics.DrawString(b.value, font, textBrush, b.x * 40, b.y * 40);
+                e.Graphics.DrawString(b.value, font, textBrush, b.x * 30, b.y * 30);
             }
         }
     }
