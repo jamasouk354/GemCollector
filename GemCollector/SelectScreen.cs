@@ -12,7 +12,7 @@ namespace GemCollector
 {
     public partial class SelectScreen : UserControl
     {
-        public static int GridLength, GridWidth, MineNum;
+        public static int GridHeight, GridWidth, GemNum;
 
         public SelectScreen()
         {
@@ -26,24 +26,23 @@ namespace GemCollector
 
         private void easyButton_Click(object sender, EventArgs e)
         {
-            GridLength = GridWidth = 9;
-            MineNum = 10;
+            GridHeight = GridWidth = 9;
+            GemNum = 10;
             loadGame();
         }
 
         private void normalButton_Click(object sender, EventArgs e)
         {
-            GridLength = GridWidth = 14;
-            MineNum = 40;
+            GridHeight = GridWidth = 14;
+            GemNum = 40;
             loadGame();
 
         }
 
         private void hardButton_Click(object sender, EventArgs e)
         {
-            GridLength = 30;
-            GridWidth = 16;
-            MineNum = 99;
+            GridWidth = GridHeight = 24;
+            GemNum = 99;
             loadGame();
         }
 

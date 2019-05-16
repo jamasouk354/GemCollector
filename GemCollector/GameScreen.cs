@@ -29,7 +29,7 @@ namespace GemCollector
             //SelectScreen.GridWidth = 10;
             //SelectScreen.MineNum = 20;
 
-            GridNum = SelectScreen.GridLength * SelectScreen.GridWidth;
+            GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
 
             int counter = 0;
             bool GridCreated = false;
@@ -37,9 +37,9 @@ namespace GemCollector
             // Generate Grid
             if (GridCreated == false)
             {
-                for (int i = 0; i < SelectScreen.GridLength; i++)
+                for (int i = 0; i < SelectScreen.GridWidth; i++)
                 {
-                    for (int j = 0; j < SelectScreen.GridWidth; j++)
+                    for (int j = 0; j < SelectScreen.GridHeight; j++)
                     {
                         Grid.Add(new GridBox(i, j, "0"));
                     }
@@ -48,11 +48,11 @@ namespace GemCollector
             }
 
             // Insert Gems
-            while(counter < SelectScreen.MineNum)
+            while(counter < SelectScreen.GemNum)
             {
                 foreach (GridBox box in Grid)
                 {
-                    if ((randgen.Next(1, 100) == 20) && counter < SelectScreen.MineNum)
+                    if ((randgen.Next(1, 100) == 20) && counter < SelectScreen.GemNum)
                     {
                         box.value = "Gem";
                         counter++;
@@ -118,21 +118,21 @@ namespace GemCollector
             Pen linePen = new Pen(Color.Black, 2);
 
             // Draw Grid
-            for (int i = 0; i < SelectScreen.GridWidth; i++)
+            for (int i = 0; i < SelectScreen.GridHeight; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(i * 40, 0), new Point(i * 40, SelectScreen.GridWidth * 40));
+                e.Graphics.DrawLine(linePen, new Point(i * 30, 0), new Point(i * 30, SelectScreen.GridWidth * 30));
             }
 
-            for (int i = 0; i < SelectScreen.GridLength; i++)
+            for (int i = 0; i < SelectScreen.GridWidth; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(0, i * 40), new Point(SelectScreen.GridWidth * 40, i * 40));
+                e.Graphics.DrawLine(linePen, new Point(0, i * 30), new Point(SelectScreen.GridWidth * 30, i * 30));
             }
 
             Font font = new Font("Times New Romans", 10);
             SolidBrush textBrush = new SolidBrush(Color.Brown);
             foreach (GridBox b in Grid)
             {
-                e.Graphics.DrawString(b.value, font, textBrush, b.x * 40, b.y * 40);
+                e.Graphics.DrawString(b.value, font, textBrush, b.x * 30, b.y * 30);
             }
         }
     }
