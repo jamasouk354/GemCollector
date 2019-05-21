@@ -76,6 +76,7 @@
             this.customButtom.TabIndex = 3;
             this.customButtom.Text = "CustomizeYourLevel\r\n(Customise)";
             this.customButtom.UseVisualStyleBackColor = true;
+            this.customButtom.Click += new System.EventHandler(this.customButtom_Click);
             // 
             // SelectScreen
             // 
@@ -87,7 +88,6 @@
             this.Controls.Add(this.easyButton);
             this.Name = "SelectScreen";
             this.Size = new System.Drawing.Size(977, 730);
-            this.Load += new System.EventHandler(this.SelectScreen_Load);
             this.ResumeLayout(false);
 
         }
