@@ -24,11 +24,6 @@ namespace GemCollector
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
-            // Remove this later, testing purposes
-            //SelectScreen.GridLength = 10;
-            //SelectScreen.GridWidth = 10;
-            //SelectScreen.MineNum = 20;
-
             GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
 
             int counter = 0;
@@ -62,51 +57,75 @@ namespace GemCollector
 
 
             // Generate numbers
-            foreach (GridBox box in Grid)
+            foreach(GridBox box in Grid)
             {
                 if(!(box.value == "Gem"))
                 {
                     counter = 0;
-                    if (Grid.Contains(new GridBox(box.x++, box.y, "Gem")))
+                    //if (Grid.Contains(new GridBox(box.x++, box.y, "Gem")))
+                    if (Grid.IndexOf(box) + 1 < Grid.Count())
                     {
-                        counter++;
+                        if(Grid[Grid.IndexOf(box)+1].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x++, box.y++, "Gem")))
+                    if (Grid.IndexOf(box) - 1 > 0)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - 1].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x++, box.y--, "Gem")))
+                    if (Grid.IndexOf(box) + SelectScreen.GridHeight < Grid.Count())
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) + SelectScreen.GridHeight].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x--, box.y, "Gem")))
+                    if (Grid.IndexOf(box) + SelectScreen.GridHeight + 1 < Grid.Count())
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) + SelectScreen.GridHeight].value + 1== "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x--, box.y++, "Gem")))
+                    if (Grid.IndexOf(box) + SelectScreen.GridHeight - 1 < Grid.Count())
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) + SelectScreen.GridHeight - 1].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x--, box.y--, "Gem")))
+                    if (Grid.IndexOf(box) - SelectScreen.GridHeight > SelectScreen.GridWidth)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - SelectScreen.GridHeight].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x, box.y++, "Gem")))
+                    if (Grid.IndexOf(box) - SelectScreen.GridHeight + 1 > SelectScreen.GridWidth)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - SelectScreen.GridHeight + 1].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
 
-                    if (Grid.Contains(new GridBox(box.x, box.y--, "Gem")))
+                    if (Grid.IndexOf(box) - SelectScreen.GridHeight - 1 > SelectScreen.GridWidth)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - SelectScreen.GridHeight - 1].value == "Gem")
+                        {
+                            counter++;
+                        }
                     }
-
                     box.value = Convert.ToString(counter);
                 }
 
