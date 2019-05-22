@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace GemCollector
 {
@@ -24,11 +25,6 @@ namespace GemCollector
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
-            // Remove this later, testing purposes
-            //SelectScreen.GridLength = 10;
-            //SelectScreen.GridWidth = 10;
-            //SelectScreen.MineNum = 20;
-
             GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
 
             int counter = 0;

@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
+using System.Threading;
 
 namespace GemCollector
 {
     public partial class SelectScreen : UserControl
     {
         public static int GridHeight, GridWidth, GemNum;
+        public static SoundPlayer menuClick = new SoundPlayer(Properties.Resources.Click_menu);
+        public static SoundPlayer gameClick = new SoundPlayer(Properties.Resources.Click_game);
 
         public SelectScreen()
         {
@@ -42,6 +46,8 @@ namespace GemCollector
 
         private void customButtom_Click(object sender, EventArgs e)
         {
+            Thread.Sleep(180);
+            menuClick.Play();
             CustomLevel cl = new CustomLevel();
             Form a = this.FindForm();
             a.Controls.Remove(this);
@@ -50,6 +56,8 @@ namespace GemCollector
 
         public void loadGame()
         {
+            Thread.Sleep(180);
+            menuClick.Play();
             GameScreen gs = new GameScreen();
             Form f = this.FindForm();
             f.Controls.Remove(this);
