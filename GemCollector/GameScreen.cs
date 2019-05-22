@@ -63,44 +63,69 @@ namespace GemCollector
                 if(!(box.value == "Gem"))
                 {
                     counter = 0;
-                    if (Grid.Contains(new GridBox(box.x++, box.y, "Gem")))
+                    // Top Center
+                    if (Grid.IndexOf(box) + 1 < Grid.Count())
                     {
-                        counter++;
+                        if(Grid[Grid.IndexOf(box)+1].value == "Gem" || Grid[Grid.IndexOf(box) + 1].value == "BGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x++, box.y++, "Gem")))
+                    // Bottom Center
+                    if (Grid.IndexOf(box) - 1 > 0)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - 1].value == "Gem"|| Grid[Grid.IndexOf(box) - 1].value == "TGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x++, box.y--, "Gem")))
+                    // Right
+                    if (Grid.IndexOf(box) + SelectScreen.GridHeight < Grid.Count())
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) + SelectScreen.GridHeight].value == "Gem" || Grid[Grid.IndexOf(box) + SelectScreen.GridHeight].value == "BGem" || Grid[Grid.IndexOf(box) + SelectScreen.GridHeight].value == "TGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x--, box.y, "Gem")))
+                    // Left
+                    if (Grid.IndexOf(box) - SelectScreen.GridHeight > 0)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - SelectScreen.GridHeight].value == "Gem" || Grid[Grid.IndexOf(box) - SelectScreen.GridHeight].value == "BGem" || Grid[Grid.IndexOf(box) - SelectScreen.GridHeight].value == "TGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x--, box.y++, "Gem")))
+                    // Top Left
+                    if (Grid.IndexOf(box) + SelectScreen.GridHeight + 1 < Grid.Count())
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) + SelectScreen.GridHeight + 1].value == "Gem" || Grid[Grid.IndexOf(box) + SelectScreen.GridHeight + 1].value == "BGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x--, box.y--, "Gem")))
+                    // Bottom Right
+                    if (Grid.IndexOf(box) + SelectScreen.GridHeight - 1 < Grid.Count())
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) + SelectScreen.GridHeight - 1].value == "Gem" || Grid[Grid.IndexOf(box) + SelectScreen.GridHeight - 1].value == "TGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x, box.y++, "Gem")))
+                    // Top Right
+                    if (Grid.IndexOf(box) - SelectScreen.GridHeight + 1 > 0)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - SelectScreen.GridHeight + 1].value == "Gem" || Grid[Grid.IndexOf(box) - SelectScreen.GridHeight + 1].value == "BGem")
+                        {
+                            counter++;
+                        }
                     }
-
-                    if (Grid.Contains(new GridBox(box.x, box.y--, "Gem")))
+                    // Bottom Left
+                    if (Grid.IndexOf(box) - SelectScreen.GridHeight - 1 > 0)
                     {
-                        counter++;
+                        if (Grid[Grid.IndexOf(box) - SelectScreen.GridHeight - 1].value == "Gem" || Grid[Grid.IndexOf(box) - SelectScreen.GridHeight - 1].value == "TGem")
+                        {
+                            counter++;
+                        }
                     }
 
                     box.value = Convert.ToString(counter);
