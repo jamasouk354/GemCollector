@@ -40,6 +40,7 @@
             this.Load += new System.EventHandler(this.GameScreen_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
             this.ResumeLayout(false);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameScreen_MouseClick);
 
         }
 
