@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using System.Web;
 
 namespace GemCollector
 {
@@ -165,7 +166,19 @@ namespace GemCollector
             SolidBrush textBrush = new SolidBrush(Color.Brown);
             foreach (GridBox b in Grid)
             {
-                e.Graphics.DrawString(b.value, font, textBrush, b.x * 40, b.y * 40);
+                if(b.appearence == "Invisible")
+                {
+                    e.Graphics.DrawImage(Image.FromFile("C:/Users/dimap/Desktop/GemCollector-master/GemCollector/unnamed.png"), (b.x)*40, (b.y)*40, 39, 39);
+                }
+                else if(b.appearence == "Marked")
+                {
+                    e.Graphics.DrawImage(Image.FromFile("C:/Users/dimap/Desktop/GemCollector-master/GemCollector/marked.png"), (b.x)*40, (b.y)*40, 39, 39);
+                }
+                else
+                {
+                    e.Graphics.DrawString(b.value, font, textBrush, b.x * 40, b.y * 40);
+                }
+                ///TODO Change images so it can take them from resources
             }
         }
 
@@ -174,14 +187,39 @@ namespace GemCollector
             switch (e.Button)
             {
                 case MouseButtons.Left:
-                    mouse = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    foreach(GridBox b in Grid)
+                    {
+                        Rectangle test = new Rectangle((b.x)*40, (b.y)*40, 39, 39);
+                        Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
+                        if (test.IntersectsWith(cursor) || b.value == "0")
+                        {
+                            b.appearence = "Visible";
+                        }
+                    }
                     // Reaveal block
                     break;
                 case MouseButtons.Right:
                     mouse = new Point(Cursor.Position.X, Cursor.Position.Y);
+                    foreach (GridBox b in Grid)
+                    {
+                        Rectangle test = new Rectangle((b.x) * 40, (b.y) * 40, 39, 39);
+                        Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
+                        if (test.IntersectsWith(cursor))
+                        {
+                            if(b.appearence == "Invisible")
+                            {
+                                b.appearence = "Marked";
+                            }
+                            else
+                            {
+                                b.appearence = "Invisible";
+                            }
+                        }
+                    }
                     // Mark block
                     break;
             }
+            Refresh();
         }
     }
 }

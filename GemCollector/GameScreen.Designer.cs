@@ -32,15 +32,17 @@
             // 
             // GameScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
+            this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "GameScreen";
-            this.Size = new System.Drawing.Size(1217, 858);
+            this.Size = new System.Drawing.Size(1623, 1056);
             this.Load += new System.EventHandler(this.GameScreen_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.GameScreen_Paint);
-            this.ResumeLayout(false);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.GameScreen_MouseClick);
+            this.ResumeLayout(false);
 
         }
 

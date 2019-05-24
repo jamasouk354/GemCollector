@@ -8,9 +8,10 @@ namespace GemCollector
 {
     class GridBox
     {
-        public int size = 10;
+        public int size = 40;
         public int x, y;
         public string value;
+        public string appearence = "Invisible";
 
         public GridBox(int _x, int _y, string _value)
         {
