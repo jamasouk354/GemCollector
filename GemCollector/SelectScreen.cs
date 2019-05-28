@@ -39,8 +39,8 @@ namespace GemCollector
 
         private void hardButton_Click(object sender, EventArgs e)
         {
-            GridWidth = GridHeight = 24;
-            GemNum = 99;
+            GridWidth = GridHeight = 19;
+            GemNum = 70;
             loadGame();
         }
 

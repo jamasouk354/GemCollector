@@ -158,7 +158,7 @@ namespace GemCollector
 
             for (int i = 0; i < SelectScreen.GridWidth; i++)
             {
-                e.Graphics.DrawLine(linePen, new Point(0, i * 40), new Point(SelectScreen.GridWidth * 40, i * 40));
+                e.Graphics.DrawLine(linePen, new Point(0, i * 40), new Point(SelectScreen.GridHeight * 40, i * 40));
             }
 
 

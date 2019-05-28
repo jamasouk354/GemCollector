@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -25,25 +26,44 @@ namespace GemCollector
         private void startButton_Click(object sender, EventArgs e)
         {
             int total;
-            SelectScreen.GridHeight = Convert.ToInt32(heightInput.Text);
-            SelectScreen.GridWidth = Convert.ToInt32(widthInput.Text);
-            SelectScreen.GemNum = Convert.ToInt32(gemInput.Text);
-            total = SelectScreen.GridHeight * SelectScreen.GridWidth;
             try
             {
-                if (SelectScreen.GridHeight < 4 && SelectScreen.GridWidth < 4)
-                {
-                    outputLabel.Text = "Width and/or Height is too low";
-                }
-            }
-            catch { }    
+                SelectScreen.GridHeight = Convert.ToInt32(heightInput.Text);
+                SelectScreen.GridWidth = Convert.ToInt32(widthInput.Text);
+                SelectScreen.GemNum = Convert.ToInt32(gemInput.Text);
+                total = SelectScreen.GridHeight * SelectScreen.GridWidth;
 
-            Thread.Sleep(180);
-            SelectScreen.menuClick.Play();
-            GameScreen gs = new GameScreen();
-            Form f = this.FindForm();
-            f.Controls.Remove(this);
-            f.Controls.Add(gs);
+                if(SelectScreen.GridHeight > 20 || SelectScreen.GridWidth > 40)
+                {
+                    outputLabel.Text = "Grid is too Large";
+                }
+                else if (SelectScreen.GridHeight < 1 || SelectScreen.GridWidth < 1)
+                {
+                    outputLabel.Text = "Grid is too Small";
+                }
+                else if(SelectScreen.GemNum > total)
+                {
+                    outputLabel.Text = "Too many Gems";
+                }
+                else if (SelectScreen.GemNum < 1)
+                {
+                    outputLabel.Text = "Not enought Gems";
+                }
+                else
+                {
+                    Thread.Sleep(180);
+                    SelectScreen.menuClick.Play();
+                    GameScreen gs = new GameScreen();
+                    Form f = this.FindForm();
+                    f.Controls.Remove(this);
+                    f.Controls.Add(gs);
+                }
+
+            }
+            catch
+            {
+                outputLabel.Text = "Must Enter Intagers";
+            }
         }     
     }
 }
