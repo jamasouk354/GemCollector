@@ -1,0 +1,13 @@
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.CustomLevel.resources
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.Form1.resources
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.GameScreen.resources
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.SelectScreen.resources
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.csproj.GenerateResource.Cache
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.csprojResolveAssemblyReference.cache
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\bin\Debug\GemCollector.exe.config
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\bin\Debug\GemCollector.exe
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\bin\Debug\GemCollector.pdb
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.Properties.Resources.resources
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.csproj.CoreCompileInputs.cache
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.exe
+C:\Users\dimap\Desktop\GemCollector-master\GemCollector\obj\Debug\GemCollector.pdb
