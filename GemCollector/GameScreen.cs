@@ -24,6 +24,9 @@ namespace GemCollector
         List<GridBox> Grid = new List<GridBox>();
         Random randgen = new Random();
 
+        bool end = false;
+        public static int clickcounter, timetaken;
+
         private void GameScreen_Load(object sender, EventArgs e)
         {
             GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
@@ -182,176 +185,197 @@ namespace GemCollector
             }
         }
 
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timetaken++;
+            label2.Text = "time taken: " + timetaken;
+            int counter = 0;
+            foreach(GridBox b in Grid)
+            {
+                if(b.appearence == "Marked")
+                {
+                    counter++;
+                }
+            }
+            label3.Text = "Flags left: " + (SelectScreen.GemNum - counter);
+        }
+
         private void GameScreen_MouseClick(object sender, MouseEventArgs e)
         {
-            List<GridBox> zerobox = new List<GridBox>();
-            switch (e.Button)
+            if (!end)
             {
-                case MouseButtons.Left:
-                    foreach (GridBox box in Grid)
-                    {
-                        Rectangle test = new Rectangle((box.x) * 40, (box.y) * 40, 39, 39);
-                        Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
-                        if (test.IntersectsWith(cursor))
+                clickcounter++;
+                label1.Text = "number of clicks: " + clickcounter;
+                List<GridBox> zerobox = new List<GridBox>();
+                switch (e.Button)
+                {
+                    case MouseButtons.Left:
+                        foreach (GridBox box in Grid)
                         {
-                            zerobox.Add(box);
-                            while(zerobox.Count() > 0)
+                            Rectangle test = new Rectangle((box.x) * 40, (box.y) * 40, 39, 39);
+                            Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
+                            if (test.IntersectsWith(cursor))
                             {
-                                GridBox b = zerobox[0];
-                                Grid[Grid.IndexOf(b)].appearence = "Visible";
-                                // Top Center
-                                if ((Grid.IndexOf(b) + 1 < Grid.Count()) && (b.y != SelectScreen.GridHeight - 1))
+                                zerobox.Add(box);
+                                while(zerobox.Count() > 0)
                                 {
-                                    if((Grid[Grid.IndexOf(b) + 1].value != "Gem") && (Grid[Grid.IndexOf(b) + 1].value != "TGem"))
+                                    GridBox b = zerobox[0];
+                                    Grid[Grid.IndexOf(b)].appearence = "Visible";
+                                    // Top Center
+                                    if ((Grid.IndexOf(b) + 1 < Grid.Count()) && (b.y != SelectScreen.GridHeight - 1))
                                     {
-                                        if((Grid[Grid.IndexOf(b) + 1].value == "0") && (Grid[Grid.IndexOf(b) + 1].appearence == "Invisible"))
+                                        if((Grid[Grid.IndexOf(b) + 1].value != "Gem") && (Grid[Grid.IndexOf(b) + 1].value != "TGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) + 1]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) + 1].appearence = "Visible";
+                                            if((Grid[Grid.IndexOf(b) + 1].value == "0") && (Grid[Grid.IndexOf(b) + 1].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) + 1]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) + 1].appearence = "Visible";
+                                            }
                                         }
                                     }
-                                }
-                                // Bottom Center
-                                if ((Grid.IndexOf(b) - 1 > 0) && (b.y != 0))
-                                {
-                                    if ((Grid[Grid.IndexOf(b) - 1].value != "Gem") && (Grid[Grid.IndexOf(b) - 1].value != "BGem"))
+                                    // Bottom Center
+                                    if ((Grid.IndexOf(b) - 1 > 0) && (b.y != 0))
                                     {
-                                        if ((Grid[Grid.IndexOf(b) - 1].value == "0") && (Grid[Grid.IndexOf(b) - 1].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) - 1].value != "Gem") && (Grid[Grid.IndexOf(b) - 1].value != "BGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) - 1]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) - 1].appearence = "Visible";
+                                            if ((Grid[Grid.IndexOf(b) - 1].value == "0") && (Grid[Grid.IndexOf(b) - 1].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) - 1]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) - 1].appearence = "Visible";
+                                            }
                                         }
                                     }
-                                }
-                                // Right
-                                if (Grid.IndexOf(b) + SelectScreen.GridHeight < Grid.Count())
-                                {
-                                    if (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].value != "Gem")
+                                    // Right
+                                    if (Grid.IndexOf(b) + SelectScreen.GridHeight < Grid.Count())
                                     {
-                                        if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].value == "0") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].value != "Gem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].value != "BGem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].value != "TGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) + SelectScreen.GridHeight]);
+                                            if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].value == "0") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) + SelectScreen.GridHeight]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].appearence = "Visible";
+                                            }
                                         }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) + SelectScreen.GridHeight].appearence = "Visible";
-                                        }
-                                    }
 
-                                }
-                                // Left
-                                if ((Grid.IndexOf(b) - SelectScreen.GridHeight > 0))
-                                {
-                                    if (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].value != "Gem")
+                                    }
+                                    // Left
+                                    if ((Grid.IndexOf(b) - SelectScreen.GridHeight > 0))
                                     {
-                                        if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].value == "0") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].value != "Gem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].value != "BGem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].value != "TGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) - SelectScreen.GridHeight]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].appearence = "Visible";
+                                            if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].value == "0") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) - SelectScreen.GridHeight]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) - SelectScreen.GridHeight].appearence = "Visible";
+                                            }
                                         }
                                     }
-                                }
-                                // Top Left
-                                if ((Grid.IndexOf(b) + SelectScreen.GridHeight + 1 < Grid.Count()) && (b.y != SelectScreen.GridHeight - 1))
-                                {
-                                    if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value != "Gem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value != "TGem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value != "BGem"))
+                                    // Top Left
+                                    if ((Grid.IndexOf(b) + SelectScreen.GridHeight + 1 < Grid.Count()) && (b.y != SelectScreen.GridHeight - 1))
                                     {
-                                        if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value == "0") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value != "Gem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value != "TGem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value != "BGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].appearence = "Visible";
+                                            if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].value == "0") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) + SelectScreen.GridHeight + 1].appearence = "Visible";
+                                            }
                                         }
                                     }
-                                }
-                                // Bottom Right
-                                if ((Grid.IndexOf(b) + SelectScreen.GridHeight - 1 < Grid.Count()) && (b.y != 0))
-                                {
-                                    if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value != "Gem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value != "BGem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value != "TGem"))
+                                    // Bottom Right
+                                    if ((Grid.IndexOf(b) + SelectScreen.GridHeight - 1 < Grid.Count()) && (b.y != 0))
                                     {
-                                        if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value == "0") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value != "Gem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value != "BGem") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value != "TGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].appearence = "Visible";
+                                            if ((Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].value == "0") && (Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) + SelectScreen.GridHeight - 1].appearence = "Visible";
+                                            }
                                         }
                                     }
-                                }
-                                // Top Right
-                                if ((Grid.IndexOf(b) - SelectScreen.GridHeight + 1 > 0) && (b.y != SelectScreen.GridHeight - 1))
-                                {
-                                    if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value != "Gem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value != "TGem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value != "BGem"))
+                                    // Top Right
+                                    if ((Grid.IndexOf(b) - SelectScreen.GridHeight + 1 > 0) && (b.y != SelectScreen.GridHeight - 1))
                                     {
-                                        if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value == "0") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value != "Gem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value != "TGem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value != "BGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].appearence = "Visible";
+                                            if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].value == "0") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) - SelectScreen.GridHeight + 1].appearence = "Visible";
+                                            }
                                         }
                                     }
-                                }
-                                // Bottom Left
-                                if ((Grid.IndexOf(b) - SelectScreen.GridHeight - 1 > 0) && (b.y != 0))
-                                {
-                                    if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value != "Gem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value != "BGem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value != "TGem"))
+                                    // Bottom Left
+                                    if ((Grid.IndexOf(b) - SelectScreen.GridHeight - 1 > 0) && (b.y != 0))
                                     {
-                                        if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value == "0") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].appearence == "Invisible"))
+                                        if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value != "Gem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value != "BGem") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value != "TGem"))
                                         {
-                                            zerobox.Add(Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1]);
-                                        }
-                                        else
-                                        {
-                                            Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].appearence = "Visible";
+                                            if ((Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].value == "0") && (Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].appearence == "Invisible"))
+                                            {
+                                                zerobox.Add(Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1]);
+                                            }
+                                            else
+                                            {
+                                                Grid[Grid.IndexOf(b) - SelectScreen.GridHeight - 1].appearence = "Visible";
+                                            }
                                         }
                                     }
+                                    zerobox.Remove(b);
                                 }
-                                zerobox.Remove(b);
                             }
                         }
-                    }
-                    // Reaveal block
-                    break;
-                case MouseButtons.Right:
-                    mouse = new Point(Cursor.Position.X, Cursor.Position.Y);
-                    foreach (GridBox b in Grid)
-                    {
-                        Rectangle test = new Rectangle((b.x) * 40, (b.y) * 40, 39, 39);
-                        Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
-                        if (test.IntersectsWith(cursor))
+                        // Reaveal block
+                        break;
+                    case MouseButtons.Right:
+                        mouse = new Point(Cursor.Position.X, Cursor.Position.Y);
+                        foreach (GridBox b in Grid)
                         {
-                            if(!(b.appearence == "Visible"))
+                            Rectangle test = new Rectangle((b.x) * 40, (b.y) * 40, 39, 39);
+                            Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
+                            if (test.IntersectsWith(cursor))
                             {
-                                if (b.appearence == "Invisible")
+                                if(!(b.appearence == "Visible"))
                                 {
-                                    b.appearence = "Marked";
+                                    if (b.appearence == "Invisible")
+                                    {
+                                        b.appearence = "Marked";
+                                    }
+                                    else
+                                    {
+                                        b.appearence = "Invisible";
+                                    }
                                 }
-                                else
-                                {
-                                    b.appearence = "Invisible";
-                                }
-                            }
 
+                            }
                         }
-                    }
-                    // Mark block
-                    break;
+                        // Mark block
+                        break;
+                }
+                Refresh();
             }
-            Refresh();
+
         }
     }
 }
