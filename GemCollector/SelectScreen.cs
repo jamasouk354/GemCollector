@@ -44,6 +44,11 @@ namespace GemCollector
             loadGame();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
         private void customButtom_Click(object sender, EventArgs e)
         {
             Thread.Sleep(180);

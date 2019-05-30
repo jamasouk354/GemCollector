@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Media;
 using System.Web;
@@ -21,10 +21,12 @@ namespace GemCollector
 
         public static int GridNum;
         public static Point mouse;
+        int actualgemnum = 0;
         List<GridBox> Grid = new List<GridBox>();
         Random randgen = new Random();
 
         bool end = false;
+        bool flaglim = false;
         public static int clickcounter, timetaken;
 
         private void GameScreen_Load(object sender, EventArgs e)
@@ -67,12 +69,12 @@ namespace GemCollector
                             box.value = "Gem";
                         }
                         counter++;
+                        actualgemnum++;
                     }
                 }
             }
-
-
-            // Generate numbers
+            #region Generate numbers
+            
             foreach (GridBox box in Grid)
             {
                 if (!(box.value == "Gem" || box.value == "TGem" || box.value == "BGem"))
@@ -145,7 +147,7 @@ namespace GemCollector
 
                     box.value = Convert.ToString(counter);
                 }
-
+                #endregion
             }
         }
 
@@ -190,14 +192,45 @@ namespace GemCollector
             timetaken++;
             label2.Text = "time taken: " + timetaken;
             int counter = 0;
+            int counter2 = 0;
             foreach(GridBox b in Grid)
             {
                 if(b.appearence == "Marked")
                 {
                     counter++;
                 }
+
+                if(((b.value == "Gem")&&(b.appearence == "Marked"))|| ((b.value == "TGem") && (b.appearence == "Marked")) || ((b.value == "BGem") && (b.appearence == "Marked")))
+                {
+                    counter2++;
+                }
+                label3.Text = "Flags left: " + (actualgemnum - counter);
+
+                if((actualgemnum - counter) == 0)
+                {
+                    flaglim = true;
+                }
+                else
+                {
+                    flaglim = false;
+                }
+
+                if((actualgemnum - counter2) == 0)
+                {
+                    end = true;
+                    label4.Visible = true;
+                    label4.Text = "Congrats, you win, click the button and go again";
+                }
             }
-            label3.Text = "Flags left: " + (SelectScreen.GemNum - counter);
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SelectScreen gs = new SelectScreen();
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
+            f.Controls.Add(gs);
         }
 
         private void GameScreen_MouseClick(object sender, MouseEventArgs e)
@@ -216,7 +249,24 @@ namespace GemCollector
                             Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
                             if (test.IntersectsWith(cursor))
                             {
-                                zerobox.Add(box);
+                                if(box.value == "Gem" || box.value == "TGem" || box.value == "BGem")
+                                {
+                                    end = true;
+                                    label4.Visible = true;
+                                    label4.Text = "You have died due to your incompetence";
+                                    timer1.Enabled = false;
+                                    break;
+                                }
+
+                                if(box.value == "0")
+                                {
+                                    zerobox.Add(box);
+                                }
+                                else
+                                {
+                                    box.appearence = "Visible";
+                                }
+                                #region zerobox loop
                                 while(zerobox.Count() > 0)
                                 {
                                     GridBox b = zerobox[0];
@@ -344,6 +394,7 @@ namespace GemCollector
                                     }
                                     zerobox.Remove(b);
                                 }
+                                #endregion 
                             }
                         }
                         // Reaveal block
@@ -358,7 +409,7 @@ namespace GemCollector
                             {
                                 if(!(b.appearence == "Visible"))
                                 {
-                                    if (b.appearence == "Invisible")
+                                    if ((b.appearence == "Invisible") && !flaglim)
                                     {
                                         b.appearence = "Marked";
                                     }
