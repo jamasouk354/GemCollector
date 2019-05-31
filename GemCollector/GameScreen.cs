@@ -31,6 +31,7 @@ namespace GemCollector
 
         private void GameScreen_Load(object sender, EventArgs e)
         {
+            timer1.Enabled = true;
             GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
 
             int counter = 0;
@@ -219,7 +220,12 @@ namespace GemCollector
                 {
                     end = true;
                     label4.Visible = true;
+                    timer1.Enabled = false;
                     label4.Text = "Congrats, you win, click the button and go again";
+                    SelectScreen.scorelist.Add(new highScore(SelectScreen.dificulty, timetaken,clickcounter, ""));
+
+                    clickcounter = 0;
+                    timetaken = 0;
                 }
             }
 
@@ -255,6 +261,8 @@ namespace GemCollector
                                     label4.Visible = true;
                                     label4.Text = "You have died due to your incompetence";
                                     timer1.Enabled = false;
+                                    clickcounter = 0;
+                                    timetaken = 0;
                                     break;
                                 }
 

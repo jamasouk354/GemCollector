@@ -39,7 +39,7 @@
             // 
             this.easyButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.easyButton.Location = new System.Drawing.Point(307, 124);
-            this.easyButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.easyButton.Margin = new System.Windows.Forms.Padding(4);
             this.easyButton.Name = "easyButton";
             this.easyButton.Size = new System.Drawing.Size(213, 62);
             this.easyButton.TabIndex = 0;
@@ -51,7 +51,7 @@
             // 
             this.normalButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.normalButton.Location = new System.Drawing.Point(307, 218);
-            this.normalButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.normalButton.Margin = new System.Windows.Forms.Padding(4);
             this.normalButton.Name = "normalButton";
             this.normalButton.Size = new System.Drawing.Size(213, 62);
             this.normalButton.TabIndex = 1;
@@ -63,7 +63,7 @@
             // 
             this.hardButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.hardButton.Location = new System.Drawing.Point(307, 309);
-            this.hardButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.hardButton.Margin = new System.Windows.Forms.Padding(4);
             this.hardButton.Name = "hardButton";
             this.hardButton.Size = new System.Drawing.Size(213, 62);
             this.hardButton.TabIndex = 2;
@@ -75,7 +75,7 @@
             // 
             this.customButtom.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customButtom.Location = new System.Drawing.Point(307, 395);
-            this.customButtom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.customButtom.Margin = new System.Windows.Forms.Padding(4);
             this.customButtom.Name = "customButtom";
             this.customButtom.Size = new System.Drawing.Size(213, 62);
             this.customButtom.TabIndex = 3;
@@ -104,9 +104,10 @@
             this.Controls.Add(this.hardButton);
             this.Controls.Add(this.normalButton);
             this.Controls.Add(this.easyButton);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SelectScreen";
             this.Size = new System.Drawing.Size(1303, 898);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.SelectScreen_Paint);
             this.ResumeLayout(false);
 
         }
