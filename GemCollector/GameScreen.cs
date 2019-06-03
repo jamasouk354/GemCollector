@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Media;
-using System.Web;
+using System.Xml;
 
 namespace GemCollector
 {
@@ -21,7 +21,6 @@ namespace GemCollector
 
         public static int GridNum;
         public static Point mouse;
-        int actualgemnum = 0;
         List<GridBox> Grid = new List<GridBox>();
         Random randgen = new Random();
 
@@ -57,20 +56,22 @@ namespace GemCollector
                 {
                     if ((randgen.Next(1, 100) == 20) && counter < SelectScreen.GemNum)
                     {
-                        if (box.y == 0)
+                        if((box.value != "Gem")||(box.value != "TGem")||(box.value != "BGem"))
                         {
-                            box.value = "TGem";
+                            if (box.y == 0)
+                            {
+                                box.value = "TGem";
+                            }
+                            else if (box.y == SelectScreen.GridHeight - 1)
+                            {
+                                box.value = "BGem";
+                            }
+                            else
+                            {
+                                box.value = "Gem";
+                            }
+                            counter++;
                         }
-                        else if (box.y == SelectScreen.GridHeight - 1)
-                        {
-                            box.value = "BGem";
-                        }
-                        else
-                        {
-                            box.value = "Gem";
-                        }
-                        counter++;
-                        actualgemnum++;
                     }
                 }
             }
@@ -201,13 +202,13 @@ namespace GemCollector
                     counter++;
                 }
 
-                if(((b.value == "Gem")&&(b.appearence == "Marked"))|| ((b.value == "TGem") && (b.appearence == "Marked")) || ((b.value == "BGem") && (b.appearence == "Marked")))
+                if(((b.appearence == "Marked") || ((b.appearence == "Visible"))))
                 {
                     counter2++;
                 }
-                label3.Text = "Flags left: " + (actualgemnum - counter);
+                label3.Text = "Flags left: " + (SelectScreen.GemNum - counter);
 
-                if((actualgemnum - counter) == 0)
+                if((SelectScreen.GemNum - counter) == 0)
                 {
                     flaglim = true;
                 }
@@ -216,7 +217,7 @@ namespace GemCollector
                     flaglim = false;
                 }
 
-                if((actualgemnum - counter2) == 0)
+                if(((SelectScreen.GridHeight*SelectScreen.GridWidth) - counter2) == 0)
                 {
                     end = true;
                     label4.Visible = true;
@@ -233,6 +234,9 @@ namespace GemCollector
 
         private void button1_Click(object sender, EventArgs e)
         {
+            clickcounter = 0;
+            timetaken = 0;
+            saveSC();
             SelectScreen gs = new SelectScreen();
             Form f = this.FindForm();
             f.Controls.Remove(this);
@@ -436,5 +440,27 @@ namespace GemCollector
             }
 
         }
+
+        public void saveSC()
+        {
+            XmlWriter writer = XmlWriter.Create("ScoreSaveFile.xml", null);
+
+            writer.WriteStartElement("Scores");
+
+            foreach (highScore hs in SelectScreen.scorelist)
+            {
+                writer.WriteStartElement("Score");
+
+                writer.WriteElementString("Difficulty", hs.difficulty);
+                writer.WriteElementString("Clicks", (hs.clicks).ToString());
+                writer.WriteElementString("Time", (hs.time).ToString());
+                writer.WriteEndElement();
+            }
+
+            writer.WriteEndElement();
+
+            writer.Close();
+        }
+
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
+using System.Xml;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
@@ -22,6 +22,7 @@ namespace GemCollector
 
         public SelectScreen()
         {
+            loadSC();
             InitializeComponent();
         }
 
@@ -57,10 +58,13 @@ namespace GemCollector
 
             for (int i = 0; i < scorelist.Count(); i++)
             {
+                if(scorelist[i].clicks == 0)
+                {
+                    scorelist.RemoveAt(i);
+                }
                 e.Graphics.DrawString((scorelist[i].difficulty), new Font("Times New Romans", 14), new SolidBrush(Color.Black), new Point(400, 70 + 20*i));
                 e.Graphics.DrawString((scorelist[i].clicks).ToString(), new Font("Times New Romans", 14), new SolidBrush(Color.Black), new Point(500, 70 + 20 * i));
                 e.Graphics.DrawString((scorelist[i].time).ToString(), new Font("Times New Romans", 14), new SolidBrush(Color.Black), new Point(600, 70 + 20 * i));
-
             }
         }
 
@@ -73,6 +77,7 @@ namespace GemCollector
         {
             Thread.Sleep(180);
             menuClick.Play();
+            dificulty = "Custom";
             CustomLevel cl = new CustomLevel();
             Form a = this.FindForm();
             a.Controls.Remove(this);
@@ -87,6 +92,33 @@ namespace GemCollector
             Form f = this.FindForm();
             f.Controls.Remove(this);
             f.Controls.Add(gs);
+        }
+
+        public void loadSC()
+        {
+            scorelist.Clear();
+            string newD, newT, newC;
+            XmlReader reader = XmlReader.Create("ScoreSaveFile.xml");
+
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Text)
+                {
+                    newD = reader.ReadString();
+
+                    reader.ReadToNextSibling("Clicks");
+                    newT = reader.ReadString();
+
+                    reader.ReadToNextSibling("Time");
+                    newC = reader.ReadString();
+
+                    highScore hs = new highScore(newD, Convert.ToInt32(newT), Convert.ToInt32(newC), "");
+                    scorelist.Add(hs);
+                }
+
+            }
+
+            reader.Close();
         }
     }
 }
