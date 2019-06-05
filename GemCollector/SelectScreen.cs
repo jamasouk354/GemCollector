@@ -19,6 +19,8 @@ namespace GemCollector
         public static SoundPlayer menuClick = new SoundPlayer(Properties.Resources.Click_menu);
         public static SoundPlayer gameClick = new SoundPlayer(Properties.Resources.Click_game);
         public static List<highScore> scorelist = new List<highScore>();
+        public static List<SavedGrid> SavedGrids = new List<SavedGrid>();
+
 
         public SelectScreen()
         {
@@ -84,8 +86,57 @@ namespace GemCollector
             a.Controls.Add(cl);
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SelectScreen.SavedGrids.Clear();
+            string newX, newY, newV;
+            string newName = "";
+            bool start = true;
+            List<GridBox> Grid = new List<GridBox>();
+            XmlReader reader = XmlReader.Create("savedGrids.xml");
+
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Text)
+                {
+                    newX = reader.ReadString();
+
+                    reader.ReadToNextSibling("y");
+                    newY = reader.ReadString();
+
+                    if ((!start) && (newX == "0") && (newY == "0"))
+                    {
+                        SelectScreen.SavedGrids.Add(new SavedGrid(Grid, newName));
+                        Grid.Clear();
+                    }
+                    reader.ReadToNextSibling("value");
+                    newV = reader.ReadString();
+
+                    reader.ReadToNextSibling("name");
+                    newName = reader.ReadString();
+
+                    GridBox hs = new GridBox(Convert.ToInt32(newX), Convert.ToInt32(newY), newV);
+                    Grid.Add(hs);
+                    start = false;
+                }
+            }
+            reader.Close();
+
+            Thread.Sleep(180);
+            menuClick.Play();
+            dificulty = "Saved";
+            GameScreen.Grid.Clear();
+            GameScreen.Grid = SelectScreen.SavedGrids[0].Grid;
+            GameScreen.newgrid = false;
+            GameScreen gs = new GameScreen();
+            Form f = this.FindForm();
+            f.Controls.Remove(this);
+            f.Controls.Add(gs);
+        }
+
         public void loadGame()
         {
+            GameScreen.newgrid = true;
             Thread.Sleep(180);
             menuClick.Play();
             GameScreen gs = new GameScreen();

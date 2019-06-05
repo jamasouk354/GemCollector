@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GemCollector
 {
-    class GridBox
+    public class GridBox
     {
         public int size = 40;
         public int x, y;
