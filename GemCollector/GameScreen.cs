@@ -20,20 +20,24 @@ namespace GemCollector
         }
 
         public static int GridNum;
-        public static bool newgrid;
-        public static Point mouse;
+        public static bool NewGrid;
+        public static Point Mouse;
         public static List<GridBox> Grid = new List<GridBox>();
         Random randgen = new Random();
+        public Point tr;
 
-        bool end = false;
-        bool flaglim = false;
-        public static int clickcounter, timetaken;
+        bool GameEnded = false;
+        bool FlagLimitReached = false;
+        public static int ClickCounter;
+        public static int TimeTaken;
 
-        private void GameScreen_Load(object sender, EventArgs e)
+        private void GameScreen_Load(object sGameEndeder, EventArgs e)
         {
-            timer1.Enabled = true;
+            tr = new Point((Screen.PrimaryScreen.Bounds.Width - (SelectScreen.GridWidth) * 40) / 2, (Screen.PrimaryScreen.Bounds.Height - (SelectScreen.GridHeight) * 40) / 2);
 
-            if (newgrid)
+            GameTimer.Enabled = true;
+
+            if (NewGrid)
             {
                 GridNum = SelectScreen.GridWidth * SelectScreen.GridHeight;
 
@@ -158,72 +162,101 @@ namespace GemCollector
             }
             else
             {
-                int yfinder = 0;
-                int xfinder = 0;
-                int gemfinder = 0;
+                int yFinder = 0;
+                int xFinder = 0;
+                int GemFinder = 0;
                 foreach(GridBox b in Grid)
                 {
                     //Grid.RemoveRange(Grid.Count()/2, Grid.Count() - 1);
                     b.appearence = "Invisible";
-                    if(xfinder < b.x)
+                    if(xFinder < b.x)
                     {
-                        xfinder = b.x;
+                        xFinder = b.x;
                     }
-                    if (yfinder < b.y)
+                    if (yFinder < b.y)
                     {
-                        yfinder = b.y;
+                        yFinder = b.y;
                     }
                     if((b.value == "Gem")||(b.value == "TGem")||(b.value == "BGem"))
                     {
-                        gemfinder++;
+                        GemFinder++;
                     }
                 }
-                SelectScreen.GridWidth = xfinder + 1;
-                SelectScreen.GemNum = gemfinder;
-                SelectScreen.GridHeight = yfinder + 1;
+                SelectScreen.GridWidth = xFinder + 1;
+                SelectScreen.GemNum = GemFinder;
+                SelectScreen.GridHeight = yFinder + 1;
             }
         }
 
-        private void GameScreen_Paint(object sender, PaintEventArgs e)
+        private void GameScreen_Paint(object sGameEndeder, PaintEventArgs e)
         {
-            Pen linePen = new Pen(Color.Black, 2);
-
-            // Draw Grid
-            for (int i = 0; i < SelectScreen.GridHeight; i++)
-            {
-                e.Graphics.DrawLine(linePen, new Point(i * 40, 0), new Point(i * 40, SelectScreen.GridWidth * 40));
-            }
-
-            for (int i = 0; i < SelectScreen.GridWidth; i++)
-            {
-                e.Graphics.DrawLine(linePen, new Point(0, i * 40), new Point(SelectScreen.GridHeight * 40, i * 40));
-            }
-
-
             Font font = new Font("Times New Romans", 10);
             SolidBrush textBrush = new SolidBrush(Color.Brown);
+
             foreach (GridBox b in Grid)
             {
                 if (b.appearence == "Invisible")
                 {
-                    e.Graphics.DrawImage(Properties.Resources.covered, (b.x) * 40, (b.y) * 40, 39, 39);
+                    e.Graphics.DrawImage(Properties.Resources.covered, tr.X+ (b.x) * 40, tr.Y + (b.y) * 40, 39, 39);
                 }
                 else if (b.appearence == "Marked")
                 {
-                    e.Graphics.DrawImage(Properties.Resources.flag, (b.x) * 40, (b.y) * 40, 39, 39);
+                    e.Graphics.DrawImage(Properties.Resources.flag, tr.X + (b.x) * 40, tr.Y + (b.y) * 40, 39, 39);
                 }
                 else
                 {
-                    e.Graphics.DrawString(b.value, font, textBrush, b.x * 40, b.y * 40);
+                    switch (Convert.ToInt32(b.value))
+                    {
+                        case 0:
+                            e.Graphics.DrawImage(Properties.Resources.bedrock, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 1:
+                            e.Graphics.DrawImage(Properties.Resources._1, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 2:
+                            e.Graphics.DrawImage(Properties.Resources._2, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 3:
+                            e.Graphics.DrawImage(Properties.Resources._3, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 4:
+                            e.Graphics.DrawImage(Properties.Resources._4, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 5:
+                            e.Graphics.DrawImage(Properties.Resources._5, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 6:
+                            e.Graphics.DrawImage(Properties.Resources._6, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 7:
+                            e.Graphics.DrawImage(Properties.Resources._7, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                        case 8:
+                            e.Graphics.DrawImage(Properties.Resources._8, tr.X + b.x * 40, tr.Y + b.y * 40);
+                            break;
+                    }
                 }
                 // Change images so it can take them from resources
             }
+
+            Pen linePen = new Pen(Color.Black, 2);
+
+            // Draw Grid
+            for (int i = 0; i < SelectScreen.GridHeight + 1; i++)
+            {
+                e.Graphics.DrawLine(linePen, new Point((i * 40) + tr.X, tr.Y), new Point((i * 40) + tr.X, (SelectScreen.GridWidth * 40) + tr.Y));
+            }
+
+            for (int i = 0; i < SelectScreen.GridWidth + 1; i++)
+            {
+                e.Graphics.DrawLine(linePen, new Point(tr.X, (i * 40)+ tr.Y), new Point((SelectScreen.GridHeight * 40)+tr.X, (i * 40)+tr.Y));
+            }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void GameTimer_Tick(object sGameEndeder, EventArgs e)
         {
-            timetaken++;
-            label2.Text = "Time Taken: " + timetaken;
+            TimeTaken++;
+            TimeLable.Text = "Time Taken: " + TimeTaken;
             int counter = 0;
             int counter2 = 0;
             foreach(GridBox b in Grid)
@@ -237,67 +270,67 @@ namespace GemCollector
                 {
                     counter2++;
                 }
-                label3.Text = "Flags left: " + (SelectScreen.GemNum - counter);
+                FlagLable.Text = "Flags left: " + (SelectScreen.GemNum - counter);
 
                 if((SelectScreen.GemNum - counter) == 0)
                 {
-                    flaglim = true;
+                    FlagLimitReached = true;
                 }
                 else
                 {
-                    flaglim = false;
+                    FlagLimitReached = false;
                 }
 
                 if(((SelectScreen.GridHeight*SelectScreen.GridWidth) - counter2) == 0)
                 {
-                    end = true;
-                    label4.Visible = true;
-                    timer1.Enabled = false;
-                    label4.Text = "Congrats, you win, click the button and go again";
-                    SelectScreen.scorelist.Add(new highScore(SelectScreen.dificulty, timetaken,clickcounter, ""));
+                    GameEnded = true;
+                    OutputLabel.Visible = true;
+                    GameTimer.Enabled = false;
+                    OutputLabel.Text = "Congrats, you win, click the button and go again";
+                    SelectScreen.scorelist.Add(new HighScore(SelectScreen.dificulty, TimeTaken,ClickCounter, ""));
 
-                    clickcounter = 0;
-                    timetaken = 0;
+                    ClickCounter = 0;
+                    TimeTaken = 0;
                 }
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void BackButton_Click(object sGameEndeder, EventArgs e)
         {
             Grid.Clear();
-            clickcounter = 0;
-            timetaken = 0;
-            saveSC();
+            ClickCounter = 0;
+            TimeTaken = 0;
+            SaveSC();
             SelectScreen gs = new SelectScreen();
             Form f = this.FindForm();
             f.Controls.Remove(this);
             f.Controls.Add(gs);
         }
 
-        private void GameScreen_MouseClick(object sender, MouseEventArgs e)
+        private void GameScreen_MouseClick(object sGameEndeder, MouseEventArgs e)
         {
-            if (!end)
+            if (!GameEnded)
             {
-                clickcounter++;
-                label1.Text = "Number of Clicks: " + clickcounter;
+                ClickCounter++;
+                ClickLable.Text = "Number of Clicks: " + ClickCounter;
                 List<GridBox> zerobox = new List<GridBox>();
                 switch (e.Button)
                 {
                     case MouseButtons.Left:
                         foreach (GridBox box in Grid)
                         {
-                            Rectangle test = new Rectangle((box.x) * 40, (box.y) * 40, 39, 39);
+                            Rectangle test = new Rectangle(tr.X + (box.x) * 40, tr.Y + (box.y) * 40, 39, 39);
                             Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
                             if (test.IntersectsWith(cursor))
                             {
                                 if(box.value == "Gem" || box.value == "TGem" || box.value == "BGem")
                                 {
-                                    end = true;
-                                    label4.Visible = true;
-                                    label4.Text = "You have died due to your incompetence";
-                                    timer1.Enabled = false;
-                                    clickcounter = 0;
-                                    timetaken = 0;
+                                    GameEnded = true;
+                                    OutputLabel.Visible = true;
+                                    OutputLabel.Text = "You have died due to your incompetence";
+                                    GameTimer.Enabled = false;
+                                    ClickCounter = 0;
+                                    TimeTaken = 0;
                                     break;
                                 }
 
@@ -443,16 +476,16 @@ namespace GemCollector
                         // Reaveal block
                         break;
                     case MouseButtons.Right:
-                        mouse = new Point(Cursor.Position.X, Cursor.Position.Y);
+                        Mouse = new Point(Cursor.Position.X, Cursor.Position.Y);
                         foreach (GridBox b in Grid)
                         {
-                            Rectangle test = new Rectangle((b.x) * 40, (b.y) * 40, 39, 39);
+                            Rectangle test = new Rectangle(tr.X+(b.x) * 40, tr.Y+(b.y) * 40, 39, 39);
                             Rectangle cursor = new Rectangle(Cursor.Position.X, Cursor.Position.Y, 1, 1);
                             if (test.IntersectsWith(cursor))
                             {
                                 if(!(b.appearence == "Visible"))
                                 {
-                                    if ((b.appearence == "Invisible") && !flaglim)
+                                    if ((b.appearence == "Invisible") && !FlagLimitReached)
                                     {
                                         b.appearence = "Marked";
                                     }
@@ -472,7 +505,7 @@ namespace GemCollector
 
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
+        private void SaveButton_Click(object sGameEndeder, EventArgs e)
         {
             SelectScreen.SavedGrids.Add(new SavedGrid(Grid, ""));
 
@@ -502,13 +535,13 @@ namespace GemCollector
             writer.Close();
         }
 
-        public void saveSC()
+        public void SaveSC()
         {
             XmlWriter writer = XmlWriter.Create("ScoreSaveFile.xml", null);
 
             writer.WriteStartElement("Scores");
 
-            foreach (highScore hs in SelectScreen.scorelist)
+            foreach (HighScore hs in SelectScreen.scorelist)
             {
                 writer.WriteStartElement("Score");
 

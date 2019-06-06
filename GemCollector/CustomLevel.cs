@@ -23,31 +23,31 @@ namespace GemCollector
         {
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
             int total;
             try
             {
-                SelectScreen.GridHeight = Convert.ToInt32(heightInput.Text);
-                SelectScreen.GridWidth = Convert.ToInt32(widthInput.Text);
-                SelectScreen.GemNum = Convert.ToInt32(gemInput.Text);
+                SelectScreen.GridHeight = Convert.ToInt32(HeightInput.Text);
+                SelectScreen.GridWidth = Convert.ToInt32(WidthInput.Text);
+                SelectScreen.GemNum = Convert.ToInt32(GemInput.Text);
                 total = SelectScreen.GridHeight * SelectScreen.GridWidth;
 
                 if(SelectScreen.GridHeight > 20 || SelectScreen.GridWidth > 40)
                 {
-                    outputLabel.Text = "Grid is too Large";
+                    OutputLabel.Text = "Grid is too Large";
                 }
                 else if (SelectScreen.GridHeight < 1 || SelectScreen.GridWidth < 1)
                 {
-                    outputLabel.Text = "Grid is too Small";
+                    OutputLabel.Text = "Grid is too Small";
                 }
                 else if(SelectScreen.GemNum > total)
                 {
-                    outputLabel.Text = "Too many Gems";
+                    OutputLabel.Text = "Too many Gems";
                 }
                 else if (SelectScreen.GemNum < 1)
                 {
-                    outputLabel.Text = "Not enought Gems";
+                    OutputLabel.Text = "Not enought Gems";
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace GemCollector
             }
             catch
             {
-                outputLabel.Text = "Must Enter Intagers";
+                OutputLabel.Text = "Must Enter Intagers";
             }
         }     
     }
